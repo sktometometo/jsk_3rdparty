@@ -7,8 +7,8 @@
         args="/speech_to_text /speech_to_text_google /speech_to_text_julius" />
       <!-- 2019_08_29 shinjo これいらなくない? -->
 
-  <node name="speech_to_text_relay" pkg="topic_tools" type="relay"
-      args="/speech_to_text_raw /speech_to_text_dialogflow_client" />
+  <node name="speech_to_text_demux" pkg="topic_tools" type="demux"
+      args="/speech_to_text_raw /speech_to_text_dialogflow_client /speech_to_text_app" />
 
   <node name="dialogflow_client"
         pkg="dialogflow_task_executive" type="dialogflow_client.py"
