@@ -8,7 +8,7 @@
   <!-- input speech topic of speech_to_text.py -->
   <arg name="audio" default="speech_audio"/>
   <!-- output text topic of speech_to_text.py -->
-  <arg name="speech_to_text" default="speech_to_text_raw"/>
+  <arg name="speech_to_text" default="speech_to_text"/>
   <!-- langage used in speech_to_text.py -->
   <arg name="language" default="en-US"/>
 
