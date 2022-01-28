@@ -13,7 +13,7 @@ class WebRTCVADROS(object):
         self._current_speaking = False
         self._speech_audio_buffer = b''
 
-        self._queue_duration = rospy.get_param('~queue_duration', 10)  # ms
+        self._queue_duration = rospy.get_param('~queue_duration', 30)  # ms
         aggressiveness = rospy.get_param('~aggressiveness', 1)
         self._minimum_duration = rospy.get_param('~minimum_duration', 0.4)
         self._vad = webrtcvad.Vad(int(aggressiveness))
@@ -44,15 +44,14 @@ class WebRTCVADROS(object):
     def _callback(self, msg):
         # append buffer and pop data with specified length
         self.audio_data_buffer += msg.data
-        if len(self.audio_data_buffer) > self.length_queue_popup:
-            input_data = self.audio_data_buffer[:self.length_queue_popup]
-            self.audio_data_buffer = self.audio_data_buffer[self.length_queue_popup:]
-            rospy.loginfo('input data length: {}'.format(len(input_data)))
-            rospy.loginfo('buffer length: {}'.format(len(self.audio_data_buffer)))
-        else:
-            rospy.loginfo('buffer length: {}'.format(len(self.audio_data_buffer)))
-            return
+        while len(self.audio_data_buffer) > self.length_queue_popup:
+            self.publish()
+        rospy.loginfo('buffer length: {}'.format(len(self.audio_data_buffer)))
+
+    def publish(self):
         # Input Data
+        input_data = self.audio_data_buffer[:self.length_queue_popup]
+        self.audio_data_buffer = self.audio_data_buffer[self.length_queue_popup:]
         try:
             is_speech = self._vad.is_speech(input_data, self._audio_info.sample_rate)
         except Exception as e:
