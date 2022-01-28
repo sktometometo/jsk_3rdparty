@@ -47,6 +47,11 @@ class WebRTCVADROS(object):
         if len(self.audio_data_buffer) > self.length_queue_popup:
             input_data = self.audio_data_buffer[:self.length_queue_popup]
             self.audio_data_buffer = self.audio_data_buffer[self.length_queue_popup:]
+            rospy.loginfo('input data length: {}'.format(len(input_data)))
+            rospy.loginfo('buffer length: {}'.format(len(self.audio_data_buffer)))
+        else:
+            rospy.loginfo('buffer length: {}'.format(len(self.audio_data_buffer)))
+            return
         # Input Data
         try:
             is_speech = self._vad.is_speech(input_data, self._audio_info.sample_rate)
