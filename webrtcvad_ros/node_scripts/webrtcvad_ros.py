@@ -46,7 +46,6 @@ class WebRTCVADROS(object):
         self.audio_data_buffer += msg.data
         while len(self.audio_data_buffer) > self.length_queue_popup:
             self.publish()
-        rospy.loginfo('buffer length: {}'.format(len(self.audio_data_buffer)))
 
     def publish(self):
         # Input Data
