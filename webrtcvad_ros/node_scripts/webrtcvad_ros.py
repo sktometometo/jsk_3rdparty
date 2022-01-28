@@ -35,7 +35,7 @@ class WebRTCVADROS(object):
             return
 
         self.length_queue_popup = int(
-            (self._audio_info.sample_format * self._queue_duration)/1000)
+            (self._audio_info.sample_rate * self._queue_duration)/1000)
         self.audio_data_buffer = b''
 
         self._pub_speech_audio_info.publish(self._audio_info)
