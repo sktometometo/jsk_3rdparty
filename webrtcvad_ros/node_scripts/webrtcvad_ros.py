@@ -35,7 +35,7 @@ class WebRTCVADROS(object):
             return
 
         self.length_queue_popup = int(
-            (self._audio_info.sample_rate * self._queue_duration)/1000)
+            2 * (self._audio_info.sample_rate * self._queue_duration)/1000)
         self.audio_data_buffer = b''
 
         self._pub_speech_audio_info.publish(self._audio_info)
@@ -53,12 +53,11 @@ class WebRTCVADROS(object):
         input_data = self.audio_data_buffer[:self.length_queue_popup]
         self.audio_data_buffer = self.audio_data_buffer[self.length_queue_popup:]
         try:
-            rospy.logwarn('sample_rate: {}, length of input_data: {}'.format(self._audio_info.sample_rate, len(input_data)))
-            is_speech = self._vad.is_speech(input_data, self._audio_info.sample_rate)
+            is_speech = self._vad.is_speech(
+                input_data, self._audio_info.sample_rate)
         except Exception as e:
             rospy.logerr('Got an error while processing. {}'.format(e))
             return
-        rospy.loginfo('published')
         self._pub_is_speech.publish(Bool(is_speech))
         if self._current_speaking == True and is_speech == True:
             self._speech_audio_buffer = self._speech_audio_buffer + input_data
