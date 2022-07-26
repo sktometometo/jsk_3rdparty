@@ -1,6 +1,7 @@
 <launch>
   <arg name="voice_text_machine" default="localhost" />
   <arg name="sound_play_machine" default="localhost" />
+  <arg name="device" default="default" />
 
   <arg name="launch_sound_play" default="true" />
 
@@ -28,5 +29,8 @@
     <remap from="robotsound" to="robotsound_jp"/>
     <remap from="sound_play" to="robotsound_jp"/>
     <env name="PATH" value="$(find voice_text)/bin:$(env PATH)" />
+    <rosparam subst_value="true">
+        device: $(arg device)
+    </rosparam>
   </node>
 </launch>
