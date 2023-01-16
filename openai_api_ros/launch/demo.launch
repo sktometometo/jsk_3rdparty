@@ -1,0 +1,14 @@
+<launch>
+    <arg name="api_key"/>
+
+    <node
+        pkg="openai_api_ros"
+        type="openai_api_node.py"
+        name="openai_api_ros"
+        output="screen"
+        >
+        <rosparam subst_value="true">
+            api_key: $(arg api_key)
+        </rosparam>
+    </node>
+</launch>
